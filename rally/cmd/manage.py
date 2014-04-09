@@ -38,10 +38,12 @@ class TempestCommands(object):
 
     @cliutils.args('--deploy-id', type=str, dest='deploy_id', required=False,
                    help='UUID of the deployment')
+    @cliutils.args('--branch', type=str, dest='branch', required=False,
+                   help='GIT branch to checkout')
     @envutils.with_default_deploy_id
-    def install(self, deploy_id=None):
+    def install(self, deploy_id=None, branch='master'):
         """Install tempest."""
-        verifier = tempest.Tempest(deploy_id)
+        verifier = tempest.Tempest(deploy_id, branch)
         verifier.install()
 
 

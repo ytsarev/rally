@@ -57,3 +57,11 @@ class TempestCommandsTestCase(test.TestCase):
         mock_tempest.return_value = self.tempest
         self.tempest_commands.install(deploy_id)
         self.tempest.install.assert_called_once_with()
+
+    @mock.patch('rally.verification.verifiers.tempest.tempest.Tempest')
+    def test_install_with_branch(self, mock_tempest):
+        deploy_id = str(uuid.uuid4())
+        mock_tempest.return_value = self.tempest
+        branch = 'stable/havana'
+        self.tempest_commands.install(deploy_id, branch)
+        mock_tempest.assert_called_once_with(deploy_id, branch)

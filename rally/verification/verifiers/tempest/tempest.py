@@ -34,7 +34,7 @@ class Tempest(object):
     tempest_base_path = os.path.join(os.path.expanduser("~"),
                                      '.rally/tempest/base')
 
-    def __init__(self, deploy_id, verification=None):
+    def __init__(self, deploy_id, branch='master', verification=None):
         self.lock_path = tempfile.mkdtemp()
         self.tempest_path = os.path.join(os.path.expanduser("~"),
                                          '.rally/tempest',
@@ -44,6 +44,7 @@ class Tempest(object):
         self._venv_wrapper = os.path.join(self.tempest_path,
                                           'tools/with_venv.sh')
         self.verification = verification
+        self.branch = branch
 
     def _generate_config(self, options):
         conf = configparser.ConfigParser()
@@ -108,7 +109,7 @@ class Tempest(object):
         print('Please wait while tempest is being cloned. '
               'This could take a few minutes...')
         subprocess.check_call(['git', 'clone',
-                               'git://github.com/openstack/tempest',
+                               'git://git.openstack.org/openstack/tempest',
                                Tempest.tempest_base_path])
 
     def install(self):
@@ -120,7 +121,7 @@ class Tempest(object):
                 if not os.path.exists(self.tempest_path):
                     shutil.copytree(Tempest.tempest_base_path,
                                     self.tempest_path)
-                    subprocess.check_call('git checkout master; '
+                    subprocess.check_call('git checkout ' + self.branch + '; '
                                           'git remote update; '
                                           'git pull', shell=True,
                                           cwd=os.path.join(self.tempest_path,

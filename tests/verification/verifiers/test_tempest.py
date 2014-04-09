@@ -97,7 +97,7 @@ class TempestTestCase(test.TestCase):
     def test__clone(self, mock_sp):
         self.verifier._clone()
         mock_sp.check_call.assert_called_once_with(
-            ['git', 'clone', 'git://github.com/openstack/tempest',
+            ['git', 'clone', 'git://git.openstack.org/openstack/tempest',
              tempest.Tempest.tempest_base_path])
 
     @mock.patch(TEMPEST_PATH + '.Tempest._install_venv')
