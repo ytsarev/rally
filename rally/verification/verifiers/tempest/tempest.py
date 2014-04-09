@@ -121,9 +121,10 @@ class Tempest(object):
                 if not os.path.exists(self.tempest_path):
                     shutil.copytree(Tempest.tempest_base_path,
                                     self.tempest_path)
-                    subprocess.check_call('git checkout ' + self.branch + '; '
+                    subprocess.check_call('git checkout {}; '
                                           'git remote update; '
-                                          'git pull', shell=True,
+                                          'git pull'.format(self.branch),
+                                          shell=True,
                                           cwd=os.path.join(self.tempest_path,
                                                            'tempest'))
                 self._install_venv()
